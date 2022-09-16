@@ -21,18 +21,21 @@ public class AdminController {
         this.roleService = roleService;
     }
     @GetMapping("/admin/users")
+    @RequestMapping("/admin/users")
     public String index(Model model) {
         model.addAttribute("users", userService.getAllUsers());
         return "allUsers";
     }
 
     @GetMapping("/admin/users/new")
+    @RequestMapping("/admin/users/new")
     public String newUser(@ModelAttribute("user") User user, Model model) {
         model.addAttribute("allRoles", roleService.getAllRoles());
         return "newUser";
     }
 
     @PostMapping("/admin/users")
+    @RequestMapping("/admin/users")
     public String creat(@ModelAttribute("user") User user, @RequestParam(value = "index", required = false) Long[] identifiers) {
         if (identifiers != null) {
             for (Long roleId : identifiers) {
@@ -46,6 +49,7 @@ public class AdminController {
     }
 
     @GetMapping("/admin/users/{id}/edit")
+    @RequestMapping("/admin/users/{id}/edit")
     public String edit(Model model, @PathVariable("id") Long id) {
         model.addAttribute("allRoles", roleService.getAllRoles());
         model.addAttribute("user", userService.getById(id));
@@ -53,6 +57,7 @@ public class AdminController {
     }
 
     @PatchMapping("/admin/users/{id}")
+    @RequestMapping("/admin/users/{id}")
     public String update(@ModelAttribute("user") User user, @PathVariable("id") Long id , @RequestParam(value = "index", required = false) Long[] identifiers) {
 
         if (identifiers != null) {
@@ -67,6 +72,7 @@ public class AdminController {
     }
 
     @DeleteMapping("/admin/users/{id}/delete")
+    @RequestMapping("/admin/users/{id}/delete")
     public String delete(@PathVariable("id") Long id) {
         userService.deleteUser(id);
         return "redirect:/admin/users";
